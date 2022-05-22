@@ -55,3 +55,42 @@ public:
     }
 };
 ```
+
+# 852. Peak Index in a Mountain Array
+**Easy**
+
+Let's call an array arr a mountain if the following properties hold:
+
+    arr.length >= 3
+    There exists some i with 0 < i < arr.length - 1 such that:
+        arr[0] < arr[1] < ... arr[i-1] < arr[i]
+        arr[i] > arr[i+1] > ... > arr[arr.length - 1]
+
+Given an integer array arr that is guaranteed to be a mountain, return any i such that arr[0] < arr[1] < ... arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1].
+
+> Do bin search such that if mid element is less than its successor then update left as mid+1 else update right as mid (not as mid-1, as it will not capture the actual max element). The algo works as, if mid is smaller than successor then max occurs in right so update left to mid+1 and if it is false then max is to the left of mid so update right as mid.
+
+```c++
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& arr) {
+        int l=0,r=arr.size()-1;
+        while(l<r){
+            int mid =l+(r-l)/2;
+            if(arr[mid]<arr[mid+1]){
+                l = mid+1;
+            }
+            else{
+                r = mid;
+            }
+        }
+        return r;
+    }
+};
+```
+
+# 
+
+```c++
+
+```
