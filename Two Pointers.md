@@ -143,3 +143,133 @@ public:
 };
 ```
 
+# 1768. Merge Strings Alternately
+**Easy**
+
+You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string.
+
+Return the merged string.
+
+```c++
+class Solution {
+public:
+    string mergeAlternately(string word1, string word2) {
+        string ans;
+        int m = min(word1.length(), word2.length());
+        for(int i=0;i<m;i++){
+            ans+=word1[i];
+            ans+=word2[i];
+        }
+        if(m>=word1.length()){
+            for(int i=m;i<word2.length();i++){
+                ans+=word2[i];
+            }
+        }
+        else{
+            for(int i=m;i<word1.length();i++){
+                ans+=word1[i];
+            }
+        }
+        return ans;
+    }
+};
+```
+
+# 905. Sort Array By Parity
+**Easy**
+
+Given an integer array nums, move all the even integers at the beginning of the array followed by all the odd integers.
+
+Return any array that satisfies this condition.
+
+```c++
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        int i=0,j=nums.size()-1;
+        while(i<=j){
+            if(nums[i]%2 && nums[j]%2==0){
+                swap(nums[i], nums[j]);
+            }
+            if(nums[i]%2==0){
+                i++;
+            }
+            else if(nums[j]%2){
+                j--;
+            }
+        }
+        return nums;
+    }
+};
+```
+
+# 344. Reverse String
+**Easy**
+
+Write a function that reverses a string. The input string is given as an array of characters s.
+
+You must do this by modifying the input array in-place with O(1) extra memory.
+
+```c++
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int i=0,j=s.size()-1;
+        while(i<=j){
+            swap(s[i],s[j]);
+            i++;
+            j--;
+        }
+    }
+};
+```
+
+# 876. Middle of the Linked List
+**Easy**
+
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+```c++
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+};
+```
+
+# 977. Squares of a Sorted Array
+**Easy**
+
+Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+
+```c++
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int i=0,j=nums.size()-1;
+        vector<int> ans;
+        while(i<=j){
+            if(abs(nums[i]) <= abs(nums[j])){
+                ans.push_back(nums[j]*nums[j]);
+                j--;
+            }
+            else{
+                ans.push_back(nums[i]*nums[i]);
+                i++;
+            }
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+```
+
