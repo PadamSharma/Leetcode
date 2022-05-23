@@ -89,6 +89,29 @@ public:
 };
 ```
 
+# 349. Intersection of Two Arrays
+**Easy**
+
+Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
+
+> Erase from set removes the element from the set of nums1 and then we can append in ans. If element of same value pops up then it is discarded as the same value got erased earlier.
+
+```c++
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> set(nums1.begin(), nums1.end());
+        vector<int> ans;
+        for(auto i:nums2){
+            if(set.erase(i)){
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+```
+
 # 
 
 ```c++
