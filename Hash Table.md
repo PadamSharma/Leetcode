@@ -409,3 +409,111 @@ public:
     }
 };
 ```
+
+# 2032. Two Out of Three
+**Easy**
+
+Given three integer arrays nums1, nums2, and nums3, return a distinct array containing all the values that are present in at least two out of the three arrays. You may return the values in any order. 
+
+> Used 3 sets for 3 arrays and calculated frequency of the elements in all 3 sets. The elements with freq > 2 are pushed in ans.
+
+> Main thing is how to return the vector from vector of vectors and make sets.
+
+```c++
+class Solution {
+public:
+    vector<int> twoOutOfThree(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3) {
+        unordered_map<int, int> freq; 
+        for (auto& nums : {nums1, nums2, nums3}) {
+            unordered_set<int> st(nums.begin(), nums.end()); 
+            for (auto& x : st) ++freq[x];
+        }
+        vector<int> ans; 
+        for (auto& [k, v] : freq)
+            if (v >= 2) ans.push_back(k); 
+        return ans;
+    }
+};
+```
+
+# 2053. Kth Distinct String in an Array
+**Easy**
+
+A distinct string is a string that is present only once in an array.
+
+Given an array of strings arr, and an integer k, return the kth distinct string present in arr. If there are fewer than k distinct strings, return an empty string "".
+
+Note that the strings are considered in the order in which they appear in the array.
+
+> Order if based on the array and kth element is found using --k == 0.
+
+```c++
+class Solution {
+public:
+    string kthDistinct(vector<string>& arr, int k) {
+        unordered_map<string, int> map;
+        for(auto i:arr){
+            map[i]++;
+        }
+        string ans;
+        for(auto i:arr){
+            if(map[i]==1 && --k == 0){
+                ans = i;
+                break;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+# 1460. Make Two Arrays Equal by Reversing Sub-arrays
+**Easy**
+
+You are given two integer arrays of equal length target and arr. In one step, you can select any non-empty sub-array of arr and reverse it. You are allowed to make any number of steps.
+
+Return true if you can make arr equal to target or false otherwise.
+
+```c++
+class Solution {
+public:
+    bool canBeEqual(vector<int>& target, vector<int>& arr) {
+        unordered_map<int,int> map;
+        if(target.size()!=arr.size()){
+            return false;
+        }
+        for(int i=0;i<arr.size();i++){
+            map[arr[i]]++;
+            map[target[i]]--;
+        }
+        for(auto i:map){
+            if(i.second!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
+
+# 1207. Unique Number of Occurrences
+**Easy**
+
+Given an array of integers arr, return true if the number of occurrences of each value in the array is unique, or false otherwise.
+
+```c++
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        unordered_map<int,int> map;
+        for(auto i:arr){
+            map[i]++;
+        }
+        unordered_set<int> s;
+        for(auto i:map){
+            s.insert(i.second);
+        }
+        return s.size()==map.size();
+    }
+};
+```
