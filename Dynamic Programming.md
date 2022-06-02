@@ -81,3 +81,63 @@ public:
     }
 };
 ```
+
+# 338. Counting Bits
+**Easy**
+
+Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+```c++
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> ans(n+1, 0);
+        if(n==0){
+            return {0};
+        }
+        else if(n==1){
+            return {0,1};
+        }
+        else{
+            ans[1]=1;
+            int i=2;
+            while(i<=n){
+                ans[i] = i&1?ans[i/2]+1:ans[i/2];
+                i++;
+            }
+            return ans;
+        }
+        
+    }
+};
+```
+
+# 118. Pascal's Triangle
+**Easy**
+
+Given an integer numRows, return the first numRows of Pascal's triangle.
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> generate(int n) {
+        if(n==1){
+            return {{1}};
+        }
+        else if(n==2){
+            return {{1},{1,1}};
+        }
+        else{
+            vector<vector<int>> ans = {{1},{1,1}};
+            for(int i=3;i<=n;i++){
+                vector<int> pus(i,1);
+                ans.push_back(pus);
+                for(int j=0;j<i-2;j++){
+                    ans[i-1][j+1] = ans[i-2][j] + ans[i-2][j+1];
+                }
+            }
+            return ans;
+        }
+    }
+};
+```
