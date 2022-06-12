@@ -518,7 +518,67 @@ public:
 };
 ```
 
-# 
+# 2248. Intersection of Multiple Arrays
+**Easy**
+
+Given a 2D integer array nums where nums[i] is a non-empty array of distinct positive integers, return the list of integers that are present in each array of nums sorted in ascending order. 
+
+```c++
+class Solution {
+public:
+    vector<int> intersection(vector<vector<int>>& nums) {
+        unordered_map<int, int> map;
+        for(auto i:nums){
+            for(auto j:i){
+                map[j]++;
+            }
+        }
+        vector<int> ans;
+        for(auto i:map){
+            if(i.second==nums.size()){
+                ans.push_back(i.first);
+            }
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+```
+
+# 2215. Find the Difference of Two Arrays
+**Easy**
+
+Given two 0-indexed integer arrays nums1 and nums2, return a list answer of size 2 where:
+
+    answer[0] is a list of all distinct integers in nums1 which are not present in nums2.
+    answer[1] is a list of all distinct integers in nums2 which are not present in nums1.
+
+Note that the integers in the lists may be returned in any order.
+
+> Basically, this ques is of **set difference**. Unique elements are necessary to have as we have find occurances of elements in one vector, in other vector. Hence use of sets is necessary.
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> s1(nums1.begin(), nums1.end()), s2(nums2.begin(), nums2.end());
+        vector<vector<int>> ans(2);
+        for(auto i:s1){
+            if(s2.count(i)==0){
+                ans[0].push_back(i);
+            }
+        }
+        for(auto i:s2){
+            if(s1.count(i)==0){
+                ans[1].push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+#  
 
 ```c++
 
