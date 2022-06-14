@@ -72,3 +72,21 @@ public:
     }
 };
 ```
+
+# 237. Delete Node in a Linked List
+**Easy**
+
+Write a function to delete a node in a singly-linked list. You will not be given access to the head of the list, instead you will be given access to the node to be deleted directly.
+
+It is guaranteed that the node to be deleted is not a tail node in the list.
+
+> Using \* operator we can overwrite the address of the given node with the address of its next node.
+
+```c++
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        *node = *node->next;
+    }
+};
+```
