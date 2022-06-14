@@ -43,6 +43,12 @@ public:
 
 Given the head of a singly linked list, reverse the list, and return the reversed list.
 
+> If the list is either empty or contains single node, return head. Otherwise maintain two variables to store next node and the current node. 
+* **nxt = head -> next**, store the next node
+* **head -> next = curr**, make head node point to current node, which initially was set to NULL,
+* **curr = head**, set current node to head thus move forward in list as in next operation,
+* **head = nxt**, nxt becomes the head node, hence we move forward in Linked List.
+
 ```c++
 class Solution {
 public:
