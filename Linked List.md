@@ -130,3 +130,94 @@ public:
     }
 };
 ```
+
+# 83. Remove Duplicates from Sorted List
+**Easy**
+
+Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+
+```c++
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *temp = head;
+        while(temp && temp->next){
+            if(temp->val == temp->next->val){
+                temp->next = temp->next->next;
+            }
+            else{
+                temp = temp->next;
+            }
+        }
+        return head;
+    }
+};
+```
+
+# 141. Linked List Cycle
+**Easy**
+
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+```c++
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode *slow=head, *fast=head;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast){
+                return true;
+            }
+        }
+        return false;
+    }
+};
+```
+
+# 234. Palindrome Linked List
+Easy
+
+Given the head of a singly linked list, return true if it is a palindrome.
+
+> Reverse Linked List and check if fast pointer is NULL or not if it is !NULL then move slow pointer one step as the length of the list is even.
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode *slow=head, *fast=head;
+        ListNode *temp=NULL;
+        ListNode *nxt;
+        while(fast && fast->next){
+            fast=fast->next->next;
+            nxt = slow->next;
+            slow->next=temp;
+            temp=slow;
+            slow=nxt;
+        }
+        if(fast){
+            slow = slow->next;
+        }
+        while(temp && slow){
+            if(temp->val!=slow->val){
+                return false;
+            }
+            temp = temp->next;
+            slow = slow->next;
+        }
+        return true;
+    }
+};
+```
+
+# 
+
+```c++
+
+```
