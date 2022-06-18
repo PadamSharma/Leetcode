@@ -216,8 +216,76 @@ public:
 };
 ```
 
-# 
+# 2181. Merge Nodes in Between Zeros
+**Medium**
+
+You are given the head of a linked list, which contains a series of integers separated by 0's. The beginning and end of the linked list will have Node.val == 0.
+
+For every two consecutive 0's, merge all the nodes lying in between them into a single node whose value is the sum of all the merged nodes. The modified list should not contain any 0's.
+
+Return the head of the modified linked list.
 
 ```c++
+class Solution {
+public:
+    ListNode* mergeNodes(ListNode* head) {
+        ListNode *ans;
+        ListNode *dummy = new ListNode();
+        ans = dummy;
+        int sum=0;
+        head=head->next;
+        while(head){
+            if(head->val == 0){
+                ListNode *temp = new ListNode(sum);
+                ans->next = temp;
+                ans = ans->next;
+                sum=0;
+            }
+            else{
+                sum+=head->val;
+            }
+            head=head->next;
+        }
+        return dummy->next;
+    }
+};
+```
 
+# 1669. Merge In Between Linked Lists
+**Medium**
+
+You are given two linked lists: list1 and list2 of sizes n and m respectively.
+
+Remove list1's nodes from the ath node to the bth node, and put list2 in their place.
+
+The blue edges and nodes in the following figure indicate the result:
+
+Build the result list and return its head.
+
+```c++
+class Solution {
+public:
+    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+        ListNode *bNode = list1;
+        ListNode *ans = list1;
+        int idx=0;
+        while(idx<=b){
+            bNode = bNode->next;
+            idx++;
+        }
+        idx=0;
+        while(list1->next && list2){
+            if(idx==a-1){
+                list1->next = list2;
+            }
+            if(idx>=a){
+                list2 = list2->next;
+            }
+            list1 = list1->next;
+            idx++;
+        }
+        list1->next = bNode;
+        return ans;
+    }
+};
 ```
