@@ -221,6 +221,8 @@ public:
 
 Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
 
+> Not used pointer variable to change address of the current node( Q.237 Delete current node in a linked list ) to next node as it is difficult to remove the last node if its value = val. Thus used common method to overwrite the address using next method only.
+
 ```c++
 class Solution {
 public:
