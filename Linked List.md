@@ -320,3 +320,93 @@ public:
     }
 };
 ```
+
+# 2130. Maximum Twin Sum of a Linked List
+**Medium**
+
+In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1.
+
+    For example, if n = 4, then node 0 is the twin of node 3, and node 1 is the twin of node 2. These are the only nodes with twins for n = 4.
+
+The twin sum is defined as the sum of a node and its twin.
+
+Given the head of a linked list with even length, return the maximum twin sum of the linked list.
+
+> Reverse the linked list upto half and then check for maximum.
+
+```c++
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        if(!head->next->next){
+            return head->val+head->next->val;
+        }
+        ListNode *slow = head, *fast = head;
+        ListNode *nxt;
+        ListNode *temp=NULL;
+        while(fast && fast->next){
+            fast = fast->next->next;
+            nxt = slow->next;
+            slow->next = temp;
+            temp = slow;
+            slow = nxt;
+        }
+        int ans=0;
+        while(slow && temp){
+            ans = max(ans, slow->val+temp->val);
+            slow = slow->next;
+            temp = temp->next;
+        }
+        return ans;
+    }
+};
+```
+
+# 1721. Swapping Nodes in a Linked List
+**Medium**
+
+You are given the head of a linked list, and an integer k.
+
+Return the head of the linked list after swapping the values of the kth node from the beginning and the kth node from the end (the list is 1-indexed).
+
+> If length is odd and k is in middle return the same list without swapping anything. 
+
+> Else if k is greater than n/2 then reset it to value smaller than n/2.
+
+> Else iterate over the list and find (k-1)th and (n-k)th node and then finally swap their values.
+
+
+```c++
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        ListNode *kth=head, *n1kth=head;
+        ListNode *temp = head;
+        int idx=0;
+        int n=0;
+        while(temp){
+            temp = temp->next;
+            n++;
+        }
+        if(k-1==n-k){ // if n is odd and k is the middle element
+            return head;
+        }
+        if(k>n/2){ // if k is greater than n/2 then reset k back to value less than n/2
+            k = n-k+1;
+        }
+        while(idx<=(n-k)){
+            if(idx<k-1){
+                kth = kth->next;
+                n1kth = n1kth->next;
+            }
+            else if(idx>=k-1 && idx<(n-k)){
+                n1kth = n1kth->next;
+            }
+            idx++;
+        }
+        cout<<n1kth->val<<" - "<<n1kth->val<<endl;
+        swap(kth->val, n1kth->val);
+        return head;
+    }
+};
+```
