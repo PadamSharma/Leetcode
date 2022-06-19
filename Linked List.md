@@ -216,6 +216,35 @@ public:
 };
 ```
 
+# 203. Remove Linked List Elements
+**Easy**
+
+Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+```c++
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode *temp = head;
+        if(!head){
+            return head;
+        }
+        while(head && head->val == val){
+            head = head->next;
+        }
+        while(temp->next){
+            if(temp->next->val == val){
+                temp->next = temp->next->next;
+            }
+            else{
+                temp = temp->next;
+            }
+        }
+        return head;
+    }
+};
+```
+
 # 2181. Merge Nodes in Between Zeros
 **Medium**
 
