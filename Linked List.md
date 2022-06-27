@@ -494,8 +494,222 @@ public:
 };
 ```
 
-# 
+# 24. Swap Nodes in Pairs
+Medium
+
+Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
+
+> Ordering of operations is important :
+> 
+> 1. Create a dummy node to store head of the list to be returned
+> 
+> In the loop :
+> 
+> 2. Next of PREV points to Next of CURR (dummy points to second element of the list), to make it the head element (the first step).
+> 3. Next of CURR (first element) points to Next of Next of PREV (third element)
+> 4. Update the nodes : PREV to CURR & CURR to CURR->Next
+
 
 ```c++
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(!head || !head->next){
+            return head;
+        }
+        ListNode *prev;
+        ListNode *dummy = new ListNode();
+        prev = dummy;
+        ListNode *curr = head;
+        while(curr && curr->next){
+            prev->next = curr->next;
+            curr->next = prev->next->next;
+            prev->next->next = curr;
+            
+            prev = curr;
+            curr = curr->next;
+        }
+        return dummy->next;
+    }
+};
+```
 
+# 445. Add Two Numbers II
+Medium
+
+You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+> Terminate while loop when carry = 0 and all stacks are empty, otherwise continue.
+
+> How n1 and n2 are calculated is important as we check on every iteration whether stack is empty or not, if it is not empty then n1 gets the value of top of stack, else stays 0. This way we don't need another loop to empty non empty stacks.
+
+> Carry is calculated at the end of every iteration, then checked in the condition of the loop the used to calculate sum, then lastly updated at the end (ideal worflow for carry)
+
+```c++
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        stack<int> s1,s2;
+        while(l1){
+            s1.push(l1->val);
+            l1 = l1->next;
+        }
+        while(l2){
+            s2.push(l2->val);
+            l2 = l2->next;
+        }
+        int c=0, n1=0, n2=0;
+        ListNode *ans = NULL;
+        while(!s1.empty() || !s2.empty() || c){
+            if(!s1.empty()){
+                n1 = s1.top();
+                s1.pop();
+            }
+            else{
+                n1 = 0;
+            }
+            if(!s2.empty()){
+                n2 = s2.top();
+                s2.pop();
+            }
+            else{
+                n2 = 0;
+            }
+            ListNode *temp = new ListNode((n1+n2+c)%10);
+            temp->next = ans;
+            ans = temp;
+            c = (n1+n2+c)/10;
+        }
+        return ans;
+    }
+};
+```
+
+# 817. Linked List Components
+Medium
+
+You are given the head of a linked list containing unique integer values and an integer array nums that is a subset of the linked list values.
+
+Return the number of connected components in nums where two values are connected if they appear consecutively in the linked list.
+
+For example : head = [0,1,2,3,4], nums = [0,3,1,4]
+
+```diff
+- > 0, 1
++ > 2,
+- > 3, 5
+```
+> Here we need to sum up number of occurances of ends of those red connected components.
+
+> Check for end of red components : 
+> 
+> * Check if current component is present in array, 
+> * **AND** , 
+> * if next node is null (end of list is reached) **OR** value of next node is not present in array.
+
+```c++
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& nums) {
+        unordered_set<int> st(begin(nums), end(nums));
+        int ans=0;
+        while(head){
+            if(st.count(head->val) && (!head->next || !st.count(head->next->val))){
+                ans++;
+            }
+            head = head->next;
+        }
+        return ans;
+    }
+};
+```
+
+# 2058. Find the Minimum and Maximum Number of Nodes Between Critical Points
+Medium
+
+A critical point in a linked list is defined as either a local maxima or a local minima.
+
+A node is a local maxima if the current node has a value strictly greater than the previous node and the next node.
+
+A node is a local minima if the current node has a value strictly smaller than the previous node and the next node.
+
+Note that a node can only be a local maxima/minima if there exists both a previous node and a next node.
+
+Given a linked list head, return an array of length 2 containing [minDistance, maxDistance] where minDistance is the minimum distance between any two distinct critical points and maxDistance is the maximum distance between any two distinct critical points. If there are fewer than two critical points, return [-1, -1].
+
+> Push indexes of critical points into a vector and then calculate minimum and maximum distances. 
+
+```c++
+class Solution {
+public:
+    bool critical(int a, int b, int c){
+        if((b>a && b>c) || (b<a && b<c)){
+            return true;
+        }
+        return false;
+    }
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        vector<int> ans = {-1,-1};
+        if(!head->next->next){
+            return ans;
+        }
+        int i=1;
+        vector<int> idx;
+        while(head && head->next && head->next->next){
+            if(critical(head->val, head->next->val, head->next->next->val)){
+                idx.push_back(i);
+            }
+            i++;
+            head = head->next;
+        }
+        if(idx.size()>1){
+            ans[1] = idx[idx.size()-1] - idx[0];
+            int mn = INT_MAX;
+            for(int i=1;i<idx.size();i++){
+                mn = min(mn, idx[i] - idx[i-1]);
+            }
+            ans[0] = mn;
+        }
+        return ans;
+    }
+};
+```
+
+# 2095. Delete the Middle Node of a Linked List
+Medium
+
+You are given the head of a linked list. Delete the middle node, and return the head of the modified linked list.
+
+The middle node of a linked list of size n is the ⌊n / 2⌋th node from the start using 0-based indexing, where ⌊x⌋ denotes the largest integer less than or equal to x.
+
+    For n = 1, 2, 3, 4, and 5, the middle nodes are 0, 1, 1, 2, and 2, respectively.
+
+> If there is only one or two nodes handle them accordingly
+
+>Else get the slow pointer and update the address of that pointer variable to the address of the next node
+
+```c++
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if(!head->next){
+            return NULL;
+        }
+        if(!head->next->next){
+            head->next = nullptr;
+            return head;
+        }
+        ListNode *temp = head;
+        ListNode *slow = temp;
+        ListNode *fast = temp;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        *slow = *(slow->next);
+        return head;
+    }
+};
 ```
