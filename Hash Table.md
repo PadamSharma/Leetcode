@@ -578,7 +578,100 @@ public:
 };
 ```
 
-#  
+# 1636. Sort Array by Increasing Frequency
+Easy
+
+Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.
+
+Return the sorted array.
+
+```c++
+class Solution {
+public:
+    vector<int> frequencySort(vector<int>& nums) {
+        unordered_map<int,int> mp;
+        for(auto i:nums){
+            mp[i]++;
+        }
+        priority_queue<pair<int,int>> pq;
+        for(auto i:mp){
+            pq.emplace(-i.second, i.first);
+        }
+        vector<int> ans;
+        while(!pq.empty()){
+            int k = -pq.top().first;
+            while(k--){
+                ans.push_back(pq.top().second);
+            }
+            pq.pop();
+        }
+        return ans;
+    }
+};
+```
+
+# 1935. Maximum Number of Words You Can Type
+Easy
+
+There is a malfunctioning keyboard where some letter keys do not work. All other keys on the keyboard work properly.
+
+Given a string text of words separated by a single space (no leading or trailing spaces) and a string brokenLetters of all distinct letter keys that are broken, return the number of words in text you can fully type using this keyboard.
+
+```c++
+class Solution {
+public:
+    int canBeTypedWords(string text, string brokenLetters) {
+        unordered_map<char, int> mp;
+        for(auto i:brokenLetters){
+            mp[i]++;
+        }
+        text = text+' ';
+        int w=0;
+        vector<int> wrd;
+        for(int i=0;i<text.length();i++){
+            if(text[i]==' '){
+                wrd.push_back(w);
+                w=0;
+            }
+            if(mp[text[i]]>0){
+                w++;
+            }
+        }
+        int ans=wrd.size();
+        for(auto i:wrd){
+            ans-=i>0;
+        }
+        return ans;
+    }
+};
+```
+
+# 2283. Check if Number Has Equal Digit Count and Digit Value
+Easy
+
+You are given a 0-indexed string num of length n consisting of digits.
+
+Return true if for every index i in the range 0 <= i < n, the digit i occurs num[i] times in num, otherwise return false.
+
+```c++
+class Solution {
+public:
+    bool digitCount(string num) {
+        unordered_map<char, int> mp;
+        for(auto i:num){
+            mp[i]++;
+        }
+        for(auto i=0;i<num.length();i++){
+            if(mp[char(i+48)]!=int(num[i]-48)){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
+
+# 
 
 ```c++
 
