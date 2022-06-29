@@ -159,3 +159,51 @@ public:
     }
 };
 ```
+
+# 1313. Decompress Run-Length Encoded List
+Easy
+
+We are given a list nums of integers representing a list compressed with run-length encoding.
+
+Consider each adjacent pair of elements [freq, val] = [nums[2*i], nums[2*i+1]] (with i >= 0).  For each such pair, there are freq elements with value val concatenated in a sublist. Concatenate all the sublists from left to right to generate the decompressed list.
+
+Return the decompressed list.
+
+```c++
+class Solution {
+public:
+    vector<int> decompressRLElist(vector<int>& nums) {
+        vector<int> ans;
+        for(int i=0;i<nums.size();i+=2){
+            while(nums[i]--){
+                ans.push_back(nums[i+1]);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+# 1528. Shuffle String
+Easy
+
+You are given a string s and an integer array indices of the same length. The string s will be shuffled such that the character at the ith position moves to indices[i] in the shuffled string.
+
+Return the shuffled string.
+
+> # Cycle Sort - TODO
+
+```c++
+class Solution {
+public:
+    string restoreString(string s, vector<int>& indices) {
+        for(auto i=0;i<indices.size();i++){
+            while(indices[i]!=i){
+                swap(s[i], s[indices[i]]);
+                swap(indices[i], indices[indices[i]]);
+            }
+        }
+        return s;
+    }
+};
+```
